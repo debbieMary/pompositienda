@@ -1,0 +1,50 @@
+[
+  {
+    "id_empresa": "emp001",
+    "nombre_empresa": "Sasso Sweets",
+    "id_categoria": "cat001",
+    "nombre_categoria": "Dulces",
+    "id_producto": "prod001",
+    "nombre_producto": "Dulce de Cúrcuma",
+    "precio": 22,
+    "descripcion": "Antiinflamatorio",
+    "imagen": "https://media.istockphoto.com/id/1490797933/es/foto/sabrosos-caramelos-de-gelatina-de-colores-como-fondo-vista-superior.jpg?s=612x612&w=0&k=20&c=A6dxDnj6zTY-f9KFD-bqYinGJ4d0JV6fMiggNwF9r9E=",
+    "descuento": 10
+  },
+  {
+    "id_empresa": "emp004",
+    "nombre_empresa": "Tati Decoraciones",
+    "id_categoria": "cat002",
+    "nombre_categoria": "Artesanías",
+    "id_producto": "prod004",
+    "nombre_producto": "Piñata Colorida",
+    "precio": 200,
+    "descripcion": "Para Posadas",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/PI%C3%91ATA.jpg/1024px-PI%C3%91ATA.jpg",
+    "descuento": 50
+  },
+  {
+    "id_empresa": "emp002",
+    "nombre_empresa": "Tejidos Debbie Zuleta",
+    "id_categoria": "cat002",
+    "nombre_categoria": "Artesanías",
+    "id_producto": "prod002",
+    "nombre_producto": "Tapete Granny",
+    "precio": 10,
+    "descripcion": "Lindo granny Square",
+    "imagen": "https://t4.ftcdn.net/jpg/04/69/30/47/360_F_469304742_A8gEE081GtZIzeZRyWeyQuHc5V5wZjH7.jpg",
+    "descuento": 15
+  },
+  {
+    "id_empresa": "emp003",
+    "nombre_empresa": "Sasso Beauty",
+    "id_categoria": "cat003",
+    "nombre_categoria": "Cosméticos",
+    "id_producto": "prod003",
+    "nombre_producto": "Bálsamo labial Sasso",
+    "precio": 50,
+    "descripcion": "Sabor uva",
+    "imagen": null,
+    "descuento": 5
+  }
+]

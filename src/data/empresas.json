@@ -1,0 +1,66 @@
+[
+  {
+    "id_empresa": "emp001",
+    "nombre_empresa": "Sasso Sweets",
+    "descripcion": "Dulces artesanales 100% naturales hechos con mucho amor por una familia soñadora. ¡Endulzamos tu corazón con alegría!",
+    "imagen": null,
+    "id_categoria": "cat001",
+    "nombre_categoria": "Dulces",
+    "direccion": "Calle Carlos Romero #2183 Alto Sopocachi",
+    "telefono": "69974720",
+    "redesSociales": {
+      "instagram": "https://www.instagram.com/sassosweets/",
+      "facebook": "https://www.facebook.com/profile.php?id=61550235057747",
+      "tiktok": "https://www.tiktok.com/@sassosweets",
+      "web": null
+    }
+  },
+  {
+    "id_empresa": "emp004",
+    "nombre_empresa": "Tati Decoraciones",
+    "descripcion": "Decoraciones para cumpleaños",
+    "imagen": "https://upload.wikimedia.org/wikipedia/commons/6/66/PI%C3%91ATA.jpg",
+    "id_categoria": "cat002",
+    "nombre_categoria": "Artesanías",
+    "direccion": "Av. Hernán Siles 59 Chasquipampa",
+    "telefono": "69974720",
+    "redesSociales": {
+      "instagram": null,
+      "facebook": "",
+      "tiktok": "https://www.tiktok.com/@tatianagarcia",
+      "web": null
+    }
+  },
+  {
+    "id_empresa": "emp002",
+    "nombre_empresa": "Tejidos Debbie Zuleta",
+    "descripcion": "Amigurumis y tejidos personalizados para regalar momentos suaves y esponjositos.",
+    "imagen": "https://lafayette.com/wp-content/uploads/tejeduria-tipos-tejidos.jpg",
+    "id_categoria": "cat002",
+    "nombre_categoria": "Artesanías",
+    "direccion": "Calle Carlos Romero #2183 Alto Sopocachi",
+    "telefono": "79523037",
+    "redesSociales": {
+      "instagram": "https://www.instagram.com/tejidos.debbie.zuleta/",
+      "facebook": "https://www.facebook.com/profile.php?id=61566137318504",
+      "tiktok": "https://www.tiktok.com/@debbiezuleta",
+      "web": "http://www.debbie-zuleta.com"
+    }
+  },
+  {
+    "id_empresa": "emp003",
+    "nombre_empresa": "Sasso Beauty",
+    "descripcion": "Productos de cuidado de la piel y el cabello naturales",
+    "imagen": null,
+    "id_categoria": "cat003",
+    "nombre_categoria": "Cosméticos",
+    "direccion": "Calle Carlos Romero #2183 Alto Sopocachi",
+    "telefono": "79523037",
+    "redesSociales": {
+      "instagram": null,
+      "facebook": null,
+      "tiktok": null,
+      "web": "https://www.sasso-beauty.com"
+    }
+  }
+]
