@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Historial from "./model/historial/Historial";
+import Admin from "./admin/Admin";
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -57,6 +58,7 @@ function App() {
               <Route path="empresas" element={<Empresas />} />
               <Route path="/productos/:id_empresa" element={<Productos />} />
               <Route path="registro" element={<Registro />} />
+              <Route path="admin" element={<Admin />} />
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>
