@@ -113,6 +113,15 @@ const activeTabStyle = {
         >
           Productos
         </button>
+
+
+         <button
+          className={`tab-button ${activeTab === "listas" ? "active" : ""}`}
+          onClick={() => setActiveTab("listas")}
+          style={activeTab === "listas" ? activeTabStyle : tabStyle}
+        >
+          Listas
+        </button>
       </div>
 
       {/* Contenido de las pestañas */}
@@ -126,6 +135,12 @@ const activeTabStyle = {
         {activeTab === "productos" && (
           <RegProductos empresas_nuevas={empresas_nuevas} categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
         )}
+        {activeTab === "productos" && (
+          <RegProductos empresas_nuevas={empresas_nuevas} categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
+        )}
+        {activeTab === "listas" && (
+         <div>Listas</div>
+         )}
       </div>
     </div>
   );
