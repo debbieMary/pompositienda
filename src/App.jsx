@@ -13,7 +13,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Historial from "./model/historial/Historial";
-import Admin from "./admin/Admin";
+
+import { ROLES } from "./utils/MainConstants";
+import RegEmpresasProductos from "./model/regEmpresasProductos/RegEmpresasProductos";
+import Usuarios from "./model/usuarios/Usuarios";
+import Inventario from "./model/inventario/Inventario";
+import Admin from "./model/admin/Admin";
+import NoAutorizado from "./model/noAutorizado/NoAutorizado";
+
 function App() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -55,10 +62,61 @@ function App() {
               />
 
               <Route path="contacto" element={<Contacto />} />
+
+              <Route
+                path="regEmpresasProductos"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={[ROLES.ADMIN, ROLES.SUPER]}
+                    restrictedForRoles={[ROLES.CLIENTE]}
+                  >
+                    <RegEmpresasProductos />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="usuarios"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={[ ROLES.SUPER]}
+                    restrictedForRoles={[ROLES.ADMIN,ROLES.CLIENTE]}
+                  >
+                    <Usuarios />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="inventario"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={[ROLES.ADMIN, ROLES.SUPER]}
+                    restrictedForRoles={[ROLES.CLIENTE]}
+                  >
+                    <Inventario />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="admin"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={[ROLES.SUPER]}
+                    restrictedForRoles={[ROLES.CLIENTE, ROLES.ADMIN]}
+                  >
+                    <Admin />
+                  </ProtectedRoute>
+                }
+              />
+
               <Route path="empresas" element={<Empresas />} />
               <Route path="/productos/:id_empresa" element={<Productos />} />
               <Route path="registro" element={<Registro />} />
-              <Route path="admin" element={<Admin />} />
+
+              <Route path="no-autorizado" element={<NoAutorizado />} />
+
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
             </Route>

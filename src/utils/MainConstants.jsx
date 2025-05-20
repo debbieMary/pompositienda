@@ -8,3 +8,10 @@ export const MAIN_URL = "http://localhost:3000";
     { value: "SC", label: "Santa Cruz" },
     { value: "TJ", label: "Tarija" },
   ];
+
+
+ export  const ROLES = {
+  ADMIN: 'admin',
+  CLIENTE: 'cliente',
+  SUPER: 'super'
+};

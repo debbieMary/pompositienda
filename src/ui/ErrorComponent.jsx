@@ -5,7 +5,7 @@ import ButtonLink from './ButtonLink';
 
 export default function ErrorComponent({titulo, subtitulo, mensaje, buttonLabel, to, onClick}) {
   return (
-    <CustomBorder>
+    <CustomBorder margin_top="10px">
           {/* Icono de error */}
           <ErrorIcon />
           {/* Título */}

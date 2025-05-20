@@ -6,6 +6,7 @@ import CustomSpinner from '../../ui/CustomSpinner';
 import ErrorComponent from '../../ui/ErrorComponent';
 import PageTitle from '../../ui/PageTitle';
 import CustomBorder from '../../ui/CustomBorder';
+import EmptyData from '../../ui/EmptyData';
 
 const Historial = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -70,6 +71,12 @@ const Historial = () => {
 
   if(isError){
     return <ErrorComponent titulo="Error de carga" mensaje="No pudimos cargar tu historial" to="/" buttonLabel="Volver al inicio"/>
+  }
+
+
+
+  if(historial.length === 0){
+    return <EmptyData titulo="No hiciste compras aún" buttonLabel="Ir a la lista de Productos" to="/productos"/>
   }
 
   return (

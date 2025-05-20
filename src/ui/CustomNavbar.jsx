@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { usePedido } from "../context/PedidoContext";
 import { useTheme } from "../context/ThemeContext";
 import { FaMoon, FaSun } from "react-icons/fa";
+import { ROLES } from "../utils/MainConstants";
 
 export default function CustomNavbar() {
   const { usuario, logout } = useAuth();
@@ -36,7 +37,7 @@ export default function CustomNavbar() {
             <ul className="navbar-nav me-auto">
               <CustomNavLink label="Nuestras Empresas" to="empresas" />
               <CustomNavLink label="Productos" to="productos" />
-              {usuario&& (
+              {usuario && (
                 <>
                   <CustomNavLink
                     label="Carrito"
@@ -46,8 +47,28 @@ export default function CustomNavbar() {
                   <CustomNavLink label="Historial" to="historial" />
                 </>
               )}
+
+              {usuario?.rol_usuario === ROLES.SUPER && (
+                <CustomNavLink label="Admin" to="admin" />
+              )}
+
+              {(usuario?.rol_usuario === ROLES.ADMIN ||
+                usuario?.rol_usuario === ROLES.SUPER) && (
+                <CustomNavLink label="Registros" to="regEmpresasProductos" />
+              )}
+
+              {usuario?.rol_usuario === ROLES.SUPER && (
+                <CustomNavLink label="Usuarios" to="usuarios" />
+              )}
+
+              {(usuario?.rol_usuario === ROLES.ADMIN ||
+                usuario?.rol_usuario === ROLES.SUPER) && (
+                <CustomNavLink label="Inventario" to="inventario" />
+              )}
+
               <CustomNavLink label="Contacto" to="contacto" />
             </ul>
+
             <div className="d-flex my-3 gap-2">
               <button onClick={toggleTheme} className="btn pomp-btn-secondary">
                 {darkMode ? <FaSun /> : <FaMoon />}

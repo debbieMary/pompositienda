@@ -13,3 +13,14 @@ export function convertToTimestamp(selectedDate){
 
 }
 
+
+
+ export function getNextCategoryValue(categorias_nuevas){
+  const lastValue = categorias_nuevas[categorias_nuevas.length - 1]?.value || "cat0";
+  const [, digits] = lastValue.match(/^cat(\d+)$/) || [];
+  if (!digits) throw new Error(`Formato inválido: ${lastValue}. Debe ser "cat" + números.`);
+  
+  const nextNumber = parseInt(digits, 10) + 1;
+  return `cat${String(nextNumber).padStart(digits.length, "0")}`;
+};
+

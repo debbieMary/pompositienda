@@ -32,3 +32,25 @@ export async function getProductos(id_empresa, id_categoria) {
     throw new Error("Error al obtener productos");
   }
 }
+
+
+
+export const registrarProducto = async (productosData) => {
+  // Limpiamos el objeto file si está vacío para evitar problemas
+ 
+
+  const response = await fetch(`${MAIN_URL}/registroProductos`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(productosData)
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData?.error || 'Error al registrar el producto');
+  }
+
+  return await response.json();
+};
