@@ -10,6 +10,13 @@ export const MAIN_URL = "http://localhost:3000";
   ];
 
 
+   export const opcionesUserRoles = [
+    { value: "cliente", label: "Cliente" },
+    { value: "admin", label: "Admin" },
+    { value: "super", label: "Super Usuario" },
+  ];
+
+
  export  const ROLES = {
   ADMIN: 'admin',
   CLIENTE: 'cliente',

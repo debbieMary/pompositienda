@@ -57,10 +57,6 @@ export default function CustomNavbar() {
                 <CustomNavLink label="Registros" to="regEmpresasProductos" />
               )}
 
-              {usuario?.rol_usuario === ROLES.SUPER && (
-                <CustomNavLink label="Usuarios" to="usuarios" />
-              )}
-
               {(usuario?.rol_usuario === ROLES.ADMIN ||
                 usuario?.rol_usuario === ROLES.SUPER) && (
                 <CustomNavLink label="Inventario" to="inventario" />

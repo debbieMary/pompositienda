@@ -3,12 +3,12 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { FaShoppingBag } from "react-icons/fa";
 import EmptyData from '../../ui/EmptyData';
 import PageTitle from "../../ui/PageTitle";
-import { useProductos } from '../../hooks/useProductos';
 import CustomBorder from '../../ui/CustomBorder';
 import CustomSpinner from '../../ui/CustomSpinner';
 import CustomProductFilter from  '../../ui/CustomProductFilter';
 import ProductoItem from "./ProductoItem"
 import ErrorComponent from "../../ui/ErrorComponent"
+import { useActiveProductos } from '../../hooks/useActiveProductos';
 
 export default function Productos() {
   const { id_empresa } = useParams();
@@ -19,7 +19,7 @@ export default function Productos() {
     data: productos,
     isLoading,
     error,
-  } = useProductos(id_empresa, id_categoria);
+  } = useActiveProductos(id_empresa, id_categoria);
 
 
 console.log("los productos que estan llegando son: ",productos);

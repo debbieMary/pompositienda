@@ -7,6 +7,13 @@ export async function getCategorias(){
 }
 
 
+export async function getActiveCategorias(){
+    const res = await fetch(`${MAIN_URL}/categorias_activas`);
+    if (!res.ok) throw new Error('Error al obtener la lista de categorias');
+    return res.json();
+}
+
+
 export const registrarCategoria = async (categoriaData) => {
  
   const response = await fetch(`${MAIN_URL}/registroCategoria`, {

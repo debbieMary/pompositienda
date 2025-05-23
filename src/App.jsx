@@ -16,7 +16,6 @@ import Historial from "./model/historial/Historial";
 
 import { ROLES } from "./utils/MainConstants";
 import RegEmpresasProductos from "./model/regEmpresasProductos/RegEmpresasProductos";
-import Usuarios from "./model/usuarios/Usuarios";
 import Inventario from "./model/inventario/Inventario";
 import Admin from "./model/admin/Admin";
 import NoAutorizado from "./model/noAutorizado/NoAutorizado";
@@ -75,17 +74,7 @@ function App() {
                 }
               />
 
-              <Route
-                path="usuarios"
-                element={
-                  <ProtectedRoute
-                    allowedRoles={[ ROLES.SUPER]}
-                    restrictedForRoles={[ROLES.ADMIN,ROLES.CLIENTE]}
-                  >
-                    <Usuarios />
-                  </ProtectedRoute>
-                }
-              />
+  
 
               <Route
                 path="inventario"

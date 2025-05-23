@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategorias } from "../services/CategoriaServices";
+import { getAllUsuarios } from "../services/UsuariosServices";
 
-export function useCategorias() {
+export function useAllUsers() {
     const {
         data,
         isLoading,
         error,
       } = useQuery({
-        queryKey: ["categorias"],
-        queryFn: getCategorias,
+        queryKey: ["all_usuarios"],
+        queryFn: getAllUsuarios,
       });
   
     return { data, error, isLoading };
   }
-
- 

@@ -5,7 +5,7 @@ import CustomBorder from "../../ui/CustomBorder";
 import EmpresaItem from "./EmpresaItem";
 import { FaBuilding } from "react-icons/fa";
 import PageTitle from "../../ui/PageTitle";
-import { useEmpresas } from "../../hooks/useEmpresas";
+import { useActiveEmpresas } from "../../hooks/useActiveEmpresas";
 
 export default function Empresas() {
 
@@ -13,7 +13,7 @@ export default function Empresas() {
     data: empresas,
     isLoading,
     error,
-  } = useEmpresas();
+  } = useActiveEmpresas();
 
   if (isLoading) {
     return (

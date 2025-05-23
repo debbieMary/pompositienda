@@ -7,6 +7,11 @@ import RegEmpresas from "./regEmpresas";
 import RegCategorias from "./RegCategorias";
 import { useAuth } from "../../context/AuthContext";
 import RegProductos from "./RegProductos";
+import ListasCatProdEmp from "./ListasCatProdEmp";
+import { useProductos } from "../../hooks/useProductos";
+import CustomTabs from "../../ui/CustomTabs";
+import RegUsuarios from "./RegUsuarios";
+import { useAllUsers } from "../../hooks/useAllUsers";
 
 export default function RegEmpresasProductos() {
   const {
@@ -15,24 +20,17 @@ export default function RegEmpresasProductos() {
     error: errorEmpresas,
   } = useEmpresas();
 
+  const {
+    data: usuarios,
+    isLoading: isLoadingUsuarios,
+    error: errorUsuarios,
+  } = useAllUsers();
 
-  const tabStyle = {
-  padding: "10px 20px",
-  marginRight: "5px",
-  border: "none",
-  backgroundColor: "var(--pomp-plomo)",
-  color: "var(--pomp-plomo-xoscuro)",
-  cursor: "pointer",
-  borderRadius: "5px 5px 0 0",
-  fontWeight: "bold",
-  transition: "all 0.3s ease",
-};
-
-const activeTabStyle = {
-  ...tabStyle,
-  backgroundColor: "var(--pomp-turquesa)",
-  color: "var(--pomp-white)",
-};
+  const {
+    data: productos,
+    isLoading: isLoadingProductos,
+    error: errorProductos,
+  } = useProductos();
 
   const { usuario } = useAuth();
 
@@ -44,7 +42,6 @@ const activeTabStyle = {
 
   const [categorias_nuevas, set_categorias_nuevas] = useState([]);
   const [empresas_nuevas, set_empresas_nuevas] = useState([]);
-  const [activeTab, setActiveTab] = useState("categorias"); // Estado para la pestaña activa
 
   useEffect(() => {
     if (categorias) {
@@ -72,11 +69,11 @@ const activeTabStyle = {
     }
   }, [empresas]);
 
-  if (isLoadingEmpresas || isLoadingCategorias) {
+  if (isLoadingEmpresas || isLoadingCategorias || isLoadingProductos || isLoadingUsuarios) {
     return <CustomSpinner> Cargando datos...</CustomSpinner>;
   }
 
-  if (errorEmpresas || errorCategorias) {
+  if (errorEmpresas || errorCategorias || errorProductos || errorUsuarios) {
     return (
       <ErrorComponent
         titulo="Lo sentimos!!!"
@@ -88,60 +85,62 @@ const activeTabStyle = {
     );
   }
 
-  return (
-    <div className="container">
-      {/* Navegación por pestañas */}
-      <div className="tabs-container" style={{ marginBottom: "20px" }}>
-        <button
-          className={`tab-button ${activeTab === "categorias" ? "active" : ""}`}
-          onClick={() => setActiveTab("categorias")}
-          style={activeTab === "categorias" ? activeTabStyle : tabStyle}
-        >
-          Categorías
-        </button>
-        <button
-          className={`tab-button ${activeTab === "empresas" ? "active" : ""}`}
-          onClick={() => setActiveTab("empresas")}
-          style={activeTab === "empresas" ? activeTabStyle : tabStyle}
-        >
-          Empresas
-        </button>
-        <button
-          className={`tab-button ${activeTab === "productos" ? "active" : ""}`}
-          onClick={() => setActiveTab("productos")}
-          style={activeTab === "productos" ? activeTabStyle : tabStyle}
-        >
-          Productos
-        </button>
+  // Define las pestañas y su contenido
+  const tabs = [
+    {
+      id: "categorias",
+      label: "Categorías",
+      content: (
+        <RegCategorias
+          categorias_nuevas={categorias_nuevas}
+          id_usuario={usuario.id_usuario}
+        />
+      ),
+    },
+    {
+      id: "empresas",
+      label: "Empresas",
+      content: (
+        <RegEmpresas
+          categorias_nuevas={categorias_nuevas}
+          id_usuario={usuario.id_usuario}
+        />
+      ),
+    },
+    {
+      id: "productos",
+      label: "Productos",
+      content: (
+        <RegProductos
+          empresas_nuevas={empresas_nuevas}
+          categorias_nuevas={categorias_nuevas}
+          id_usuario={usuario.id_usuario}
+        />
+      ),
+    },
+    {
+      id: "usuarios",
+      label: "Usuarios",
+      content: <RegUsuarios />,
+    },
 
+    {
+      id: "listas",
+      label: "Listas",
+      content: (
+        <ListasCatProdEmp
+          categorias={categorias}
+          empresas={empresas}
+          productos={productos}
+          usuarios={usuarios}
+          isLoadingEmpresas={isLoadingEmpresas}
+          isLoadingCategorias={isLoadingCategorias}
+          isLoadingProductos={isLoadingProductos}
+          isLoadingUsuarios={isLoadingUsuarios}
+        />
+      ),
+    },
+  ];
 
-         <button
-          className={`tab-button ${activeTab === "listas" ? "active" : ""}`}
-          onClick={() => setActiveTab("listas")}
-          style={activeTab === "listas" ? activeTabStyle : tabStyle}
-        >
-          Listas
-        </button>
-      </div>
-
-      {/* Contenido de las pestañas */}
-      <div className="tab-content">
-        {activeTab === "categorias" && (
-          <RegCategorias categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
-        )}
-        {activeTab === "empresas" && (
-          <RegEmpresas categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
-        )}
-        {activeTab === "productos" && (
-          <RegProductos empresas_nuevas={empresas_nuevas} categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
-        )}
-        {activeTab === "productos" && (
-          <RegProductos empresas_nuevas={empresas_nuevas} categorias_nuevas={categorias_nuevas} id_usuario={usuario.id_usuario} />
-        )}
-        {activeTab === "listas" && (
-         <div>Listas</div>
-         )}
-      </div>
-    </div>
-  );
+  return <CustomTabs tabs={tabs} defaultTab="categorias" />;
 }

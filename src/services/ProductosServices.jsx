@@ -1,8 +1,22 @@
 import { MAIN_URL } from "../utils/MainConstants";
 
-export async function getProductos(id_empresa, id_categoria) {
+export async function getProductos() {
+  try {
+    const res = await fetch(`${MAIN_URL}/productos`);
+    if (!res.ok) throw new Error("Error al obtener la lista de productos");
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al obtener productos");
+  }
+  
+}
+
+
+
+export async function getActiveProductos(id_empresa, id_categoria) {
   // Creamos una URL base y agregamos los parámetros dinámicamente
-  let url = `${MAIN_URL}/productos?`;
+  let url = `${MAIN_URL}/productos_activos?`;
 
   // Agregar id_empresa si está disponible
   if (id_empresa) {
@@ -32,7 +46,6 @@ export async function getProductos(id_empresa, id_categoria) {
     throw new Error("Error al obtener productos");
   }
 }
-
 
 
 export const registrarProducto = async (productosData) => {

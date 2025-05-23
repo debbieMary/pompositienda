@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { registrarCategoria } from '../services/CategoriaServices';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ export function useRegistroCategoria () {
 
 const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
 
   
 const mutation = useMutation({
@@ -15,6 +16,7 @@ const mutation = useMutation({
     onSuccess: () => {
       navigate(location.pathname, { replace: true });
       toast.success('Categoría registrada correctamente');
+      queryClient.invalidateQueries({ queryKey: ['categorias'] }); //me ayudo a refrescar la lista de categorias
     },
     onError: (error) => {
       toast.error('Error al registrar la categoría:' + error.message);
@@ -29,3 +31,4 @@ const mutation = useMutation({
     data: mutation.data,
   };
 };
+

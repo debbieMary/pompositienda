@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCategorias } from "../services/CategoriaServices";
+import { getActiveCategorias } from "../services/CategoriaServices";
 
-export function useCategorias() {
+export function useActiveCategorias() {
     const {
         data,
         isLoading,
         error,
       } = useQuery({
-        queryKey: ["categorias"],
-        queryFn: getCategorias,
+        queryKey: ["categorias_active"],
+        queryFn: getActiveCategorias,
       });
   
     return { data, error, isLoading };

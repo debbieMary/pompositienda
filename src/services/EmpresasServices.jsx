@@ -7,6 +7,13 @@ export async function getAllEmpresas(){
 }
 
 
+export async function getActiveEmpresas(){
+    const res = await fetch(`${MAIN_URL}/empresas_activas`);
+    if (!res.ok) throw new Error('Error al obtener la lista de empresas');
+    return res.json();
+}
+
+
 
 
 export const registrarEmpresa = async (empresaData) => {

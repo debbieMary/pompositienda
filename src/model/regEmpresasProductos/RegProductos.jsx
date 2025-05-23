@@ -22,6 +22,7 @@ export default function RegProductos({
     let id_empresa = data.id_empresa;
     data.id_producto = `${id_empresa}${data.sku_id}`;
     data.id_usuario = id_usuario;
+    data.status="active";
     console.log("Datos del nuevo producto:", data);
     if(Number(data.descuento) >= Number(data.precio)){
       toast.error("El descuento no puede ser igual o mayor al precio");
@@ -115,8 +116,8 @@ export default function RegProductos({
           validation={{
             required: "El Campo es Requerido",
             min: {
-              value: 1,
-              message: "El precio no puede ser menor a 1",
+              value: 0,
+              message: "El precio no puede ser menor a 0",
             },
              validate: (value) => !isNaN(value) || "Debe ser un número válido",
           }}

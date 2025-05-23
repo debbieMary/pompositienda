@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate, useParams } from 'react-router-dom';
-import { useEmpresas } from '../hooks/useEmpresas';
-import { useCategorias } from '../hooks/useCategorias';
+import { useActiveEmpresas } from '../hooks/useActiveEmpresas';
+import { useActiveCategorias } from '../hooks/useActiveCategorias';
 
 export default function FiltroExclusivo() {
   const { id_empresa: empresaParam } = useParams();
@@ -21,13 +21,13 @@ export default function FiltroExclusivo() {
     data: empresas,
     isLoading: isLoadingEmpresas,
     error: errorEmpresas
-  } = useEmpresas();
+  } = useActiveEmpresas();
 
   const {
     data: categorias,
     isLoading: isLoadingCategorias,
     error: errorCategorias
-  } = useCategorias();
+  } = useActiveCategorias();
 
   if (isLoadingEmpresas || isLoadingCategorias) {
     return <div className="alert alert-dark">Cargando filtros...</div>;

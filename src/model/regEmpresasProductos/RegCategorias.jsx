@@ -15,6 +15,7 @@ export default function RegCategorias({ categorias_nuevas, id_usuario}) {
   function onSubmitCategoria(data) {
     data.id_categoria = getNextCategoryValue(categorias_nuevas);
     data.id_usuario = id_usuario;
+     data.status = "active";
     mutation.mutate(data);
     console.log("Datos de la nueva categoría:", data);
   }

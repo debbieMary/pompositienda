@@ -1,32 +1,33 @@
-import React, { useEffect } from "react";
-import CustomBorder from "../../ui/CustomBorder";
-import CustomSpinner from "../../ui/CustomSpinner";
-import PageTitle from "../../ui/PageTitle";
+import React from "react";
 import { FaUser } from "react-icons/fa";
-import { convertToTimestamp } from "../../utils/UtilFunctions";
 import { useRegistro } from "../../hooks/useRegistroUsuario";
-import ErrorComponent from "../../ui/ErrorComponent";
+import { useAuth } from "../../context/AuthContext";
+import { convertToTimestamp } from "../../utils/UtilFunctions";
 import { useNavigate } from "react-router-dom";
+import CustomBorder from "../../ui/CustomBorder";
 import CustomRegisterForm from "../../ui/CustomRegisterForm";
+import CustomSpinner from "../../ui/CustomSpinner";
+import ErrorComponent from "../../ui/ErrorComponent";
+import PageTitle from "../../ui/PageTitle";
 
-export default function Registro() {
+export default function RegUsuarios() {
   const {
     mutate,
     isPending: isLoading,
-    isSuccess,
     isError,
+    isSuccess,
     error,
-    data,
     reset,
   } = useRegistro();
+
+  const { usuario: user_admin } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = (usuario) => {
     usuario.id_usuario = `cli${usuario.ci_usuario}`;
-    usuario.rol_usuario = "cliente";
     usuario.fecha_nac_usuario = convertToTimestamp(usuario.fecha_nac_usuario);
-    usuario.usuario_creador =`cli${usuario.ci_usuario}`;
-    usuario.status ="active";
+    usuario.usuario_creador = user_admin.id_usuario;
+    usuario.status = "active";
     console.log(usuario);
     mutate(usuario);
   };
@@ -36,14 +37,9 @@ export default function Registro() {
     navigate(location.pathname, { replace: true });
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      console.log("Datos recibidos:", data);
-      localStorage.setItem("usuario", JSON.stringify(data.usuario));
-      window.dispatchEvent(new Event("localStorageUpdated"));
-      navigate("/productos"); // Ajusta esta ruta según necesites
-    }
-  }, [isSuccess, data, navigate]);
+  if (isSuccess) {
+    reload();
+  }
 
   if (isError)
     return (
@@ -62,7 +58,7 @@ export default function Registro() {
     <div className="container d-flex justify-content-center align-items-center">
       <CustomBorder color="turquesa">
         <PageTitle label="Registro de Usuario" Icon={FaUser} />
-        <CustomRegisterForm onSubmit={onSubmit}/>
+        <CustomRegisterForm onSubmit={onSubmit} needs_role_selector={true}/>
       </CustomBorder>
     </div>
   );

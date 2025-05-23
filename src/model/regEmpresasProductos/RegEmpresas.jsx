@@ -17,6 +17,7 @@ export default function RegEmpresas({ categorias_nuevas , id_usuario}) {
   const onSubmitEmpresa = (data) => {
     data.id_empresa = `emp${data.razon_social}`;
     data.id_usuario = id_usuario;
+     data.status = "active";
     console.log("Datos de la nueva empresa:", data);
     mutation.mutate(data, {
       onSuccess: (muybien) => {
