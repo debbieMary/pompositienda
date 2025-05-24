@@ -19,8 +19,7 @@ export default function RegProductos({
 
   
   function onSubmitEmpresa(data) {
-    let id_empresa = data.id_empresa;
-    data.id_producto = `${id_empresa}${data.sku_id}`;
+    data.id_producto = `prod_${data.sku_id}`;
     data.id_usuario = id_usuario;
     data.status="active";
     console.log("Datos del nuevo producto:", data);

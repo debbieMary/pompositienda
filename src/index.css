@@ -525,3 +525,98 @@ padding: 6px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+
+
+/* CONFIRM DIALOG */
+
+
+
+
+
+/* ESTILOS DOPAMINA PURA - SIN DEGRADADOS */
+.dopamina-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 170, 170, 0.2); /* --pomp-turquesa al 20% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.dopamina-dialog {
+  background-color: var(--pomp-white);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  border: 2px solid var(--pomp-turquesa);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dopamina-dialog-header {
+  padding: 1rem;
+  background-color: var(--pomp-turquesa);
+  color: var(--pomp-white);
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dopamina-dialog-body {
+  padding: 1.5rem;
+  color: var(--pomp-plomo-xoscuro);
+  line-height: 1.5;
+}
+
+.dopamina-dialog-footer {
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  background-color: var(--pomp-turquesa-claro);
+}
+
+/* BOTONES CON COLORES PLANOS */
+.dopamina-btn-cancel {
+  background-color: var(--pomp-plomo);
+  color: var(--pomp-plomo-xoscuro);
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dopamina-btn-confirm {
+  background-color: var(--pomp-salmon);
+  color: var(--pomp-white);
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Hover simples */
+.dopamina-btn-cancel:hover {
+  background-color: var(--pomp-plomo-oscuro);
+}
+
+.dopamina-btn-confirm:hover {
+  background-color: var(--pomp-salmon-oscuro);
+}
+
+/* Botón cerrar */
+.dopamina-close-btn {
+  background: none;
+  border: none;
+  color: var(--pomp-white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
