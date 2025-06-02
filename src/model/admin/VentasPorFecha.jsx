@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import PageTitle from "../../ui/PageTitle";
 import {
   BarChart,
@@ -10,9 +9,11 @@ import {
   CartesianGrid,
 } from "recharts";
 import { FaChartBar } from "react-icons/fa";
+import { useEffect } from "react";
+import { useVentasPorFecha } from "../../hooks/useVentasPorFecha";
 
 // Datos de prueba simulados (sin API)
-const datosMock = [
+/*const datosMock = [
   { fecha_compra: "2025-05-20T14:30:00Z", total: 150 },
   { fecha_compra: "2025-05-20T18:45:00Z", total: 200 },
   { fecha_compra: "2025-05-21T10:15:00Z", total: 75 },
@@ -25,10 +26,12 @@ const fetchVentasMock = async () => {
   await new Promise((resolve) => setTimeout(resolve, 500));
   return datosMock;
 };
+*/
+export default function VentasPorFecha({ fecha_inicio, fecha_fin }) {
+  console.log("desde ventas por dia", fecha_inicio, fecha_fin);
 
-const VentasPorDia = () => {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["ventas-diarias-mock"],
+  /*const { data, isLoading, error } = useQuery({
+ queryKey: ["ventas-diarias-mock"],
     queryFn: fetchVentasMock,
     select: (data) => {
       // Procesamos los datos para agrupar por día
@@ -48,7 +51,23 @@ const VentasPorDia = () => {
         return acc;
       }, []);
     },
-  });
+  });*/
+
+  const { mutate, data, isPending: isLoading, error } = useVentasPorFecha();
+  /*const { data, isLoading } = useQuery({
+      queryKey: ['registros-diarios'],
+      queryFn: fetchRegistros
+    });*/
+
+  useEffect(
+    function () {
+      mutate({
+        fecha_inicio: fecha_inicio,
+        fecha_fin: fecha_fin,
+      });
+    },
+    [fecha_inicio, fecha_fin, mutate]
+  );
 
   if (isLoading)
     return (
@@ -63,18 +82,15 @@ const VentasPorDia = () => {
       </div>
     );
 
-  if (error)
+  if (error) {
     return (
-      <div
-        style={{
-          color: "var(--pomp-salmon)",
-          textAlign: "center",
-          padding: "20px",
-        }}
-      >
-        Error simulado (solo para demostración)
-      </div>
+      <ErrorComponent
+        titulo="Error al cargar los datos"
+        buttonLabel="Volver al inicio"
+        to="/"
+      />
     );
+  }
 
   return (
     <div
@@ -93,7 +109,13 @@ const VentasPorDia = () => {
 
       <ResponsiveContainer width="100%" height="90%">
         <BarChart
-          data={data}
+          data={data?.map((item) => ({
+            ...item,
+            fecha: new Date(item.fecha).toLocaleDateString("es-ES", {
+              day: "2-digit",
+              month: "short",
+            }), // Ej: "01 Jun"
+          }))}
           margin={{ top: 5, right: 30, left: 20, bottom: 60 }}
         >
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -123,6 +145,4 @@ const VentasPorDia = () => {
       </ResponsiveContainer>
     </div>
   );
-};
-
-export default VentasPorDia;
+}

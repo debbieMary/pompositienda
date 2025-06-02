@@ -69,7 +69,7 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
         show={showConfirm}
         onHide={handleHideConfirm}
         onConfirm={handleConfirmDelete}
-        title="Eliminar empresa"
+        title="Eliminar Empresas"
         message={`¿Estás seguro de que deseas eliminar la empresa "${selectedItem?.nombre_empresa}"?`}
       />
     </>

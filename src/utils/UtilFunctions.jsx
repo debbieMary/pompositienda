@@ -14,6 +14,12 @@ export function convertToTimestamp(selectedDate){
 }
 
 
+export function convertToLiteralDay(fechaISO) {
+  const [anio, mes, dia] = fechaISO.split("-");
+  return `${dia}/${mes}/${anio}`;
+}
+
+
 
  export function getNextCategoryValue(categorias_nuevas){
   const lastValue = categorias_nuevas[categorias_nuevas.length - 1]?.value || "cat0";

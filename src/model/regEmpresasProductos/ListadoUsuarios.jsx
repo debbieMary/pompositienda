@@ -74,7 +74,7 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
         show={showConfirm}
         onHide={handleHideConfirm}
         onConfirm={handleConfirmDelete}
-        title="Eliminar empresa"
+        title="Eliminar Usuarios"
         message={`¿Estás seguro de que deseas eliminar al usuario "${selectedItem?.nombre1_usuario} ${selectedItem?.apellido1_usuario}"?`}
       />
     </>

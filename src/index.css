@@ -15,7 +15,6 @@
     --pomp-turquesa: #158080;
     --pomp-turquesa-claro: #70bfbf;
     --pomp-salmon: #b05e55;
-    /*--pomp-salmon-oscuro: #803e38;*/
     --pomp-white: #e1e7e7e6;
     --pomp-salmon-oscuro: #f78f84;
     --pomp-plomo: #c4c2c2;
@@ -619,4 +618,13 @@ padding: 6px;
   font-size: 1.5rem;
   cursor: pointer;
   line-height: 1;
+}
+
+
+/*Para el date Picker*/
+.react-datepicker-wrapper {
+    display: inline-block;
+    padding: 0;
+    border: 0;
+    width: 100% !important;
 }

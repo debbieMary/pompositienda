@@ -6,9 +6,6 @@ export default function CustomRegisterForm({onSubmit,  needs_role_selector}) {
 
       const formRef = useRef();
 
-
-
-
   return (
      <CustomForm ref={formRef} onSubmit={onSubmit}>
           <CustomForm.Input

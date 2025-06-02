@@ -83,7 +83,7 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
         show={showConfirm}
         onHide={handleHideConfirm}
         onConfirm={handleConfirmDelete}
-        title="Eliminar empresa"
+        title="Eliminar Producto"
         message={`¿Estás seguro de que deseas eliminar la empresa "${selectedItem?.nombre_producto}"?`}
       />
     </>

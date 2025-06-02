@@ -40,6 +40,8 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
     handleHideConfirm();
   }
 
+
+   
   const columnasCategorias = [
     { key: "id_categoria", titulo: "ID" },
     { key: "nombre_categoria", titulo: "Nombre" },
@@ -80,8 +82,8 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
         show={showConfirm}
         onHide={handleHideConfirm}
         onConfirm={handleConfirmDelete}
-        title="Eliminar empresa"
-        message={`¿Estás seguro de que deseas eliminar la empresa "${selectedItem?.nombre_categoria}"?`}
+        title="Eliminar Categoría"
+        message={`¿Estás seguro de que deseas eliminar la categoría "${selectedItem?.nombre_categoria}"?`}
       />
     </>
   );
