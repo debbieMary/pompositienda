@@ -15,7 +15,7 @@ import { Toaster } from "react-hot-toast";
 import Historial from "./model/historial/Historial";
 
 import { ROLES } from "./utils/MainConstants";
-import RegEmpresasProductos from "./model/regEmpresasProductos/RegEmpresasProductos";
+import RegGeneral from "./model/registrosGeneral/RegGeneral";
 import Inventario from "./model/inventario/Inventario";
 import Admin from "./model/admin/Admin";
 import NoAutorizado from "./model/noAutorizado/NoAutorizado";
@@ -63,13 +63,13 @@ function App() {
               <Route path="contacto" element={<Contacto />} />
 
               <Route
-                path="regEmpresasProductos"
+                path="registrosGeneral"
                 element={
                   <ProtectedRoute
                     allowedRoles={[ROLES.ADMIN, ROLES.SUPER]}
                     restrictedForRoles={[ROLES.CLIENTE]}
                   >
-                    <RegEmpresasProductos />
+                    <RegGeneral />
                   </ProtectedRoute>
                 }
               />

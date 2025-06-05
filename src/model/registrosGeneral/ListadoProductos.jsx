@@ -3,6 +3,8 @@ import { useEliminar } from "../../hooks/useEliminar";
 import CustomTable from "../../ui/CustomTable";
 import { ConfirmDialog } from "../../ui/ConfirmDialog"; 
 import { useState } from "react";
+import PageTitle from "../../ui/PageTitle";
+import { FaEdit } from "react-icons/fa";
 
 export default function ListadoProductos({ productos, isLoadingProductos }) {
   const { usuario } = useAuth();
@@ -56,6 +58,7 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
 
   return (
     <>
+    <PageTitle label="Listado de Productos" Icon={FaEdit}/>
       <CustomTable
         datos={productos}
         columnas={columnasProductos}

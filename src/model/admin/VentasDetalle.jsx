@@ -108,8 +108,8 @@ export default function VentasDetalle({ fecha_inicio, fecha_fin }) {
         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
       }}
     >
-      <div style={{ marginBottom: "20px" }}>
-        <PageTitle label="Ventas por día" Icon={FaShop} />
+      <div style={{ marginBottom: "20px" }} align="center">
+        <PageTitle label="Detalle de productos" Icon={FaShop} />
       </div>
 
       <ResponsiveContainer width="100%" height="80%">

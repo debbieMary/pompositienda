@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CustomBorder({children, color = "turquesa",margin_top} ) {
+export default function CustomBorder({children, color = "turquesa",margin_top, maxWidth="600px", padding="p-5"} ) {
 
     // Mapeo de colores a variables CSS
     const colorMap = {
@@ -19,11 +19,11 @@ export default function CustomBorder({children, color = "turquesa",margin_top} )
     <>
       <div align="center" style={margin_top ? {marginTop: `${margin_top}`} : {}}>
           <div 
-            className={`text-center p-5 rounded-4 shadow-lg`}
+            className={`text-center ${padding} rounded-4 shadow-lg`}
             style={{
               backgroundColor: "var(--pomp-white)",
               border: `3px solid ${colorMap[color]}`,
-              maxWidth: "600px"
+              maxWidth: `${maxWidth}`,
             }}>
           {children}
         </div>

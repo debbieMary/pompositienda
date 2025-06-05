@@ -55,11 +55,10 @@ export default function RegUsuarios() {
     return <CustomSpinner>Registrando a nuevo usuario...</CustomSpinner>;
 
   return (
-    <div className="container d-flex justify-content-center align-items-center">
-      <CustomBorder color="turquesa">
+    <>
+     
         <PageTitle label="Registro de Usuario" Icon={FaUser} />
         <CustomRegisterForm onSubmit={onSubmit} needs_role_selector={true}/>
-      </CustomBorder>
-    </div>
+    </>
   );
 }

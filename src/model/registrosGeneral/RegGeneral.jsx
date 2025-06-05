@@ -3,15 +3,18 @@ import { useEmpresas } from "../../hooks/useEmpresas";
 import CustomSpinner from "../../ui/CustomSpinner";
 import ErrorComponent from "../../ui/ErrorComponent";
 import { useEffect, useState } from "react";
-import RegEmpresas from "./regEmpresas";
+import RegEmpresas from "./RegEmpresas";
 import RegCategorias from "./RegCategorias";
 import { useAuth } from "../../context/AuthContext";
 import RegProductos from "./RegProductos";
-import ListasCatProdEmp from "./ListasCatProdEmp";
+import ListadoCategorias from "./ListadoCategorias";
 import { useProductos } from "../../hooks/useProductos";
 import CustomTabs from "../../ui/CustomTabs";
 import RegUsuarios from "./RegUsuarios";
 import { useAllUsers } from "../../hooks/useAllUsers";
+import ListadoEmpresas from "./ListadoEmpresas";
+import ListadoProductos from "./ListadoProductos";
+import ListadoUsuarios from "./ListadoUsuarios";
 
 export default function RegEmpresasProductos() {
   const {
@@ -69,7 +72,12 @@ export default function RegEmpresasProductos() {
     }
   }, [empresas]);
 
-  if (isLoadingEmpresas || isLoadingCategorias || isLoadingProductos || isLoadingUsuarios) {
+  if (
+    isLoadingEmpresas ||
+    isLoadingCategorias ||
+    isLoadingProductos ||
+    isLoadingUsuarios
+  ) {
     return <CustomSpinner> Cargando datos...</CustomSpinner>;
   }
 
@@ -86,7 +94,7 @@ export default function RegEmpresasProductos() {
   }
 
   // Define las pestañas y su contenido
-  const tabs = [
+  /*const tabs = [
     {
       id: "categorias",
       label: "Categorías",
@@ -140,6 +148,88 @@ export default function RegEmpresasProductos() {
         />
       ),
     },
+  ];*/
+
+  const tabs = [
+    {
+      id: "categorias",
+      label: "Gestión de Categorías",
+      content: (
+        <>
+          <RegCategorias
+            categorias_nuevas={categorias_nuevas}
+            id_usuario={usuario.id_usuario}
+          />
+          <ListadoCategorias
+            categorias={categorias}
+            isLoadingCategorias={isLoadingCategorias}
+          />
+        </>
+      ),
+    },
+    {
+      id: "empresas",
+      label: "Gestión de Empresas",
+      content: (
+        <>
+          <RegEmpresas
+            categorias_nuevas={categorias_nuevas}
+            id_usuario={usuario.id_usuario}
+          />
+          <ListadoEmpresas
+            empresas={empresas}
+            isLoadingEmpresas={isLoadingEmpresas}
+          />
+        </>
+      ),
+    },
+    {
+      id: "productos",
+      label: "Gestión de Productos",
+      content: (
+        <>
+          <RegProductos
+            empresas_nuevas={empresas_nuevas}
+            categorias_nuevas={categorias_nuevas}
+            id_usuario={usuario.id_usuario}
+          />
+          <ListadoProductos
+            productos={productos}
+            isLoadingProductos={isLoadingProductos}
+          />
+        </>
+      ),
+    },
+    {
+      id: "usuarios",
+      label: "Gestión de Usuarios",
+      content: (
+        <>
+          <RegUsuarios />
+          <ListadoUsuarios
+            usuarios={usuarios}
+            isLoadingUsuarios={isLoadingUsuarios}
+          />
+        </>
+      ),
+    },
+
+    /* {
+      id: "listas",
+      label: "Listas",
+      content: (
+        <ListasCatProdEmp
+          categorias={categorias}
+          empresas={empresas}
+          productos={productos}
+          usuarios={usuarios}
+          isLoadingEmpresas={isLoadingEmpresas}
+          isLoadingCategorias={isLoadingCategorias}
+          isLoadingProductos={isLoadingProductos}
+          isLoadingUsuarios={isLoadingUsuarios}
+        />
+      ),
+    },*/
   ];
 
   return <CustomTabs tabs={tabs} defaultTab="categorias" />;

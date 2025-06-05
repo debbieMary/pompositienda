@@ -1,4 +1,3 @@
-import React from "react";
 import CustomSpinner from "./CustomSpinner";
 import EmptyData from "./EmptyData";
 
@@ -8,26 +7,46 @@ export default function CustomTable({
   onEditar,
   onEliminar,
   isLoading = false,
-  shouldShowActions = null, // Cambiado a null para manejo más claro
+  shouldShowActions = null,
   rowClassName = null
 }) {
-  // Funciones por defecto
   const defaultShouldShowActions = () => true;
   const defaultRowClassName = () => "";
 
-  // Usamos las funciones proporcionadas o las por defecto
   const showActionsFn = shouldShowActions || defaultShouldShowActions;
   const rowClassNameFn = rowClassName || defaultRowClassName;
 
   if (isLoading) {
-    return (
-      <CustomSpinner/>
-    );
+    return <CustomSpinner/>;
   }
 
   if (!datos || datos.length === 0) {
     return <EmptyData titulo="No existen datos aún" />;
   }
+
+  // Función mejorada para generar keys únicas incluso con datos duplicados
+  const generateUniqueKey = (item, index) => {
+    // Intenta con todos los posibles IDs conocidos
+    const possibleIds = [
+      item.id,
+      item.id_producto,
+      item.id_categoria,
+      item.id_empresa,
+      item.id_usuario
+    ].filter(Boolean); // Filtra valores falsy
+    
+    // Si encuentra algún ID, lo usa con el índice como respaldo
+    if (possibleIds.length > 0) {
+      return `row-${possibleIds[0]}-${index}`;
+    }
+    
+    // Si no hay IDs, genera un hash único basado en contenido + índice
+    const contentHash = columnas.reduce((acc, col) => {
+      return acc + (item[col.key] ? item[col.key].toString() : '');
+    }, '');
+    
+    return `row-${index}-${Date.now()}-${Math.random().toString(36).substr(2, 5)}-${contentHash}`;
+  };
 
   return (
     <div className="custom-table-container">
@@ -44,18 +63,16 @@ export default function CustomTable({
             </tr>
           </thead>
           <tbody>
-            {datos.map((item) => {
+            {datos.map((item, index) => {
               const shouldShow = showActionsFn(item);
               const className = rowClassNameFn(item);
+              const rowKey = generateUniqueKey(item, index);
               
               return (
-                <tr 
-                  key={item.id || item.id_producto || item.id_categoria}
-                  className={className}
-                >
+                <tr key={rowKey} className={className}>
                   {columnas.map((columna) => (
                     <td 
-                      key={`${item.id}-${columna.key}`} 
+                      key={`${rowKey}-${columna.key}`}
                       data-label={columna.titulo}
                       className={columna.className || ''}
                     >
@@ -102,12 +119,3 @@ export default function CustomTable({
     </div>
   );
 }
-
-
-
-CustomTable.defaultProps = {
-  datos: [],
-  isLoading: false,
-  shouldShowActions: null,
-  rowClassName: null
-};

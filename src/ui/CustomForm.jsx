@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -380,6 +380,396 @@ const Submit = ({ children, loadingText = "Procesando..." }) => {
               role="status"
               aria-hidden="true"
             ></span>
+            {loadingText}
+          </>
+        ) : (
+          children
+        )}
+      </button>
+    </div>
+  );
+};
+
+// Asignamos los componentes compuestos
+CustomForm.Input = Input;
+CustomForm.Submit = Submit;
+CustomForm.Select = Select;
+CustomForm.DatePicker = DatePickerField;
+CustomForm.TextArea = TextArea;
+CustomForm.ImageUpload = ImageUpload;
+
+export default CustomForm;*/
+
+
+import React from "react";
+import { useForm, FormProvider, useFormContext } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
+// Función para generar IDs únicos
+let idCounter = 0;
+
+const generateUniqueId = (prefix = 'field') => {
+  const timestamp = Date.now().toString(36);
+  const random = Math.random().toString(36).substring(2, 5);
+  idCounter++;
+  return `${prefix}-${timestamp}-${random}-${idCounter}`;
+};
+
+// Contexto para los IDs únicos
+const UniqueIdContext = React.createContext();
+
+const CustomForm = ({ children, onSubmit, defaultValues }) => {
+  const methods = useForm({ defaultValues });
+  
+  return (
+    <FormProvider {...methods}>
+      <UniqueIdContext.Provider value={generateUniqueId}>
+        <form onSubmit={methods.handleSubmit(onSubmit)} className="w-100">
+          {children}
+        </form>
+      </UniqueIdContext.Provider>
+    </FormProvider>
+  );
+};
+
+// Hook para usar el generador de IDs
+const useUniqueId = () => {
+  const generateUniqueId = React.useContext(UniqueIdContext);
+  return generateUniqueId;
+};
+
+// Componente Input
+const Input = ({ name, label, type = "text", validation, step }) => {
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
+  
+  const generateUniqueId = useUniqueId();
+  const id = generateUniqueId(`input-${name}`);
+
+  return (
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold" style={{ color: "var(--pomp-turquesa-dark)" }}>
+        {label}
+      </label>
+      <input
+        type={type}
+        step={step}
+        id={id}
+        disabled={isSubmitting}
+        className={`form-control ${errors[name] ? "is-invalid" : ""}`}
+        style={{
+          borderColor: "var(--pomp-turquesa)",
+          backgroundColor: errors[name] ? "var(--pomp-salmon-light)" : "var(--pomp-turquesa-claro)",
+        }}
+        {...register(name, validation)}
+      />
+      {errors[name] && (
+        <div className="invalid-feedback d-block" style={{ color: "var(--pomp-salmon)" }}>
+          {errors[name].message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente Select
+const Select = ({ name, label, options, validation }) => {
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
+  
+  const generateUniqueId = useUniqueId();
+  const id = generateUniqueId(`select-${name}`);
+
+  return (
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold" style={{ color: "var(--pomp-turquesa-dark)" }}>
+        {label}
+      </label>
+      <select
+        id={id}
+        disabled={isSubmitting}
+        className={`form-control ${errors[name] ? "is-invalid" : ""}`}
+        style={{
+          borderColor: "var(--pomp-turquesa)",
+          backgroundColor: errors[name] ? "var(--pomp-salmon-light)" : "var(--pomp-turquesa-claro)",
+        }}
+        {...register(name, validation)}
+        defaultValue="" // Asegura que comience sin valor seleccionado
+      >
+        <option value="" disabled>Seleccione una opción</option>
+        {options?.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      {errors[name] && (
+        <div className="invalid-feedback d-block" style={{ color: "var(--pomp-salmon)" }}>
+          {errors[name].message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente DatePicker
+const DatePickerField = ({ name, label, validation, ...rest }) => {
+  const {
+    register,
+    setValue,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
+  
+  const generateUniqueId = useUniqueId();
+  const id = generateUniqueId(`datepicker-${name}`);
+  const dateValue = watch(name);
+
+  return (
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold" style={{ color: "var(--pomp-turquesa-dark)" }}>
+        {label}
+      </label>
+      <DatePicker
+        id={id}
+        selected={dateValue ? new Date(dateValue) : null}
+        onChange={(date) => setValue(name, date)}
+        customInput={
+          <input
+            style={{
+              borderColor: "var(--pomp-turquesa)",
+              backgroundColor: errors[name] ? "var(--pomp-salmon-light)" : "var(--pomp-turquesa-claro)",
+              width: "100%",
+              padding: "8px",
+              borderRadius: "4px",
+            }}
+            className={`form-control ${errors[name] ? "is-invalid" : ""}`}
+          />
+        }
+        disabled={isSubmitting}
+        dateFormat="dd/MM/yyyy"
+        {...rest}
+      />
+      <input type="hidden" {...register(name, validation)} />
+      {errors[name] && (
+        <div className="invalid-feedback d-block" style={{ color: "var(--pomp-salmon)" }}>
+          {errors[name].message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente TextArea
+const TextArea = ({ name, label, validation, rows = 3 }) => {
+  const {
+    register,
+    formState: { errors, isSubmitting },
+  } = useFormContext();
+  
+  const generateUniqueId = useUniqueId();
+  const id = generateUniqueId(`textarea-${name}`);
+
+  return (
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold" style={{ color: "var(--pomp-turquesa-dark)" }}>
+        {label}
+      </label>
+      <textarea
+        id={id}
+        {...register(name, validation)}
+        className={`form-control ${errors[name] ? "is-invalid" : ""}`}
+        style={{
+          borderColor: "var(--pomp-turquesa)",
+          backgroundColor: errors[name] ? "var(--pomp-salmon-light)" : "var(--pomp-turquesa-claro)",
+        }}
+        rows={rows}
+        disabled={isSubmitting}
+      />
+      {errors[name] && (
+        <div className="invalid-feedback d-block" style={{ color: "var(--pomp-salmon)" }}>
+          {errors[name].message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente ImageUpload
+const ImageUpload = ({ name, label, validation }) => {
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    clearErrors,
+    setError,
+  } = useFormContext();
+  
+  const generateUniqueId = useUniqueId();
+  const id = generateUniqueId(`imageupload-${name}`);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [previewUrl, setPreviewUrl] = React.useState(null);
+
+  React.useEffect(() => {
+    register(name, validation);
+  }, [register, name, validation]);
+
+  const handleChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsLoading(true);
+    setPreviewUrl(null);
+
+    try {
+      if (!file.type.match(/image\/(jpeg|png|webp|jpg)/i)) {
+        throw new Error("Formato no soportado (solo JPEG, PNG, WEBP)");
+      }
+
+      const base64Image = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (!reader.result?.startsWith("data:image")) {
+            reject(new Error("Archivo no es una imagen válida"));
+          } else {
+            resolve(reader.result);
+          }
+        };
+        reader.onerror = () => reject(new Error("Error al leer archivo"));
+        reader.readAsDataURL(file);
+      });
+
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("Imagen corrupta"));
+        img.src = base64Image;
+      });
+
+      setValue(name, base64Image, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+
+      setPreviewUrl(base64Image);
+      clearErrors(name);
+    } catch (error) {
+      setValue(name, null, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
+      setPreviewUrl(null);
+      setError(name, {
+        type: "manual",
+        message: error.message || "Error al procesar imagen",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="mb-3">
+      <label htmlFor={id} className="form-label fw-semibold" style={{ color: "var(--pomp-turquesa-dark)" }}>
+        {label}
+      </label>
+
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        onChange={handleChange}
+        className="d-none"
+        id={id}
+      />
+
+      <label
+        htmlFor={id}
+        className={`form-control ${errors[name] ? "is-invalid" : ""}`}
+        style={{
+          borderColor: "var(--pomp-turquesa)",
+          backgroundColor: errors[name] ? "var(--pomp-salmon-light)" : "var(--pomp-turquesa-claro)",
+          cursor: "pointer",
+          minHeight: "38px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {isLoading ? (
+          <span className="d-flex align-items-center gap-2">
+            <span className="spinner-border spinner-border-sm"></span>
+            Procesando...
+          </span>
+        ) : previewUrl ? (
+          "Cambiar imagen"
+        ) : (
+          "Seleccionar imagen"
+        )}
+      </label>
+
+      {previewUrl && (
+        <div className="mt-2">
+          <img
+            src={previewUrl}
+            alt="Vista previa"
+            className="img-thumbnail"
+            style={{
+              maxWidth: "150px",
+              maxHeight: "150px",
+              borderColor: "var(--pomp-turquesa)",
+              objectFit: "contain",
+            }}
+            onError={(e) => {
+              e.target.style.display = "none";
+              setPreviewUrl(null);
+            }}
+          />
+        </div>
+      )}
+
+      {errors[name] && (
+        <div className="invalid-feedback d-block" style={{ color: "var(--pomp-salmon)" }}>
+          {errors[name].message}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Componente Submit
+const Submit = ({ children, loadingText = "Procesando..." }) => {
+  const {
+    formState: { isSubmitting },
+  } = useFormContext();
+
+  return (
+    <div className="d-grid mb-3">
+      <button
+        type="submit"
+        className="btn fw-bold py-2"
+        disabled={isSubmitting}
+        style={{
+          backgroundColor: "var(--pomp-turquesa)",
+          color: "white",
+          border: "none",
+          transition: "background-color 0.3s",
+        }}
+        onMouseOver={(e) =>
+          !isSubmitting && (e.target.style.backgroundColor = "var(--pomp-turquesa-dark)")
+        }
+        onMouseOut={(e) =>
+          !isSubmitting && (e.target.style.backgroundColor = "var(--pomp-turquesa)")
+        }
+      >
+        {isSubmitting ? (
+          <>
+            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
             {loadingText}
           </>
         ) : (

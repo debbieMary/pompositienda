@@ -59,8 +59,8 @@ export default function Registro() {
     return <CustomSpinner>Registrando a nuevo usuario...</CustomSpinner>;
 
   return (
-    <div className="container d-flex justify-content-center align-items-center">
-      <CustomBorder color="turquesa">
+    <div className="w-100">
+      <CustomBorder color="turquesa" maxWidth="100%" padding="px-2 py-3">
         <PageTitle label="Registro de Usuario" Icon={FaUser} />
         <CustomRegisterForm onSubmit={onSubmit}/>
       </CustomBorder>

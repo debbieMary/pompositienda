@@ -3,6 +3,8 @@ import CustomTable from "../../ui/CustomTable";
 import { useAuth } from "../../context/AuthContext";
 import { useEliminar } from "../../hooks/useEliminar";
 import { ConfirmDialog } from "../../ui/ConfirmDialog"; // Asegúrate de tener esta ruta correcta
+import PageTitle from "../../ui/PageTitle";
+import { FaEdit } from "react-icons/fa";
 export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
   console.log("Categorias:", categorias);
   const { usuario } = useAuth();
@@ -13,7 +15,6 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
 
   function handleEditar(id_categoria) {
     console.log("Editar categoria con ID:", id_categoria);
-    // Aquí puedes implementar la lógica para editar la categoría
   }
 
 
@@ -55,6 +56,7 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
 
   return (
     <>
+    <PageTitle label="Listado de Categorías" Icon={FaEdit}/>
       <CustomTable
         datos={categorias}
         columnas={columnasCategorias}

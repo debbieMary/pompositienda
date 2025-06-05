@@ -3,6 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import { useEliminar } from "../../hooks/useEliminar";
 import CustomTable from "../../ui/CustomTable";
 import { ConfirmDialog } from "../../ui/ConfirmDialog"; // Asegúrate de tener esta ruta correcta
+import { FaEdit } from "react-icons/fa";
+import PageTitle from "../../ui/PageTitle";
 
 export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
   const { usuario } = useAuth();
@@ -45,6 +47,7 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
 
   return (
     <>
+      <PageTitle Icon={FaEdit} label="Listado de Empresas" />
       <CustomTable
         datos={empresas}
         columnas={columnasEmpresas}
