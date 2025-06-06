@@ -207,6 +207,7 @@ export default function RegEmpresasProductos() {
         <>
           <RegUsuarios />
           <ListadoUsuarios
+            id_usuario={usuario.id_usuario}
             usuarios={usuarios}
             isLoadingUsuarios={isLoadingUsuarios}
           />

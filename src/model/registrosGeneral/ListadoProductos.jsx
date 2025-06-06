@@ -1,24 +1,25 @@
 import { useAuth } from "../../context/AuthContext";
 import { useEliminar } from "../../hooks/useEliminar";
 import CustomTable from "../../ui/CustomTable";
-import { ConfirmDialog } from "../../ui/ConfirmDialog"; 
+import { ConfirmDialog } from "../../ui/ConfirmDialog";
 import { useState } from "react";
 import PageTitle from "../../ui/PageTitle";
 import { FaEdit } from "react-icons/fa";
+import { CustomModal } from "../../ui/CustomModal";
 
 export default function ListadoProductos({ productos, isLoadingProductos }) {
   const { usuario } = useAuth();
   const eliminarMutation = useEliminar();
 
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  function handleEditar(id_producto) {
-    console.log("Editar producto con ID:", id_producto);
-  }
-
-
+  const handleEditar = (item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
 
   function handleShowConfirm(item) {
     setSelectedItem(item);
@@ -32,17 +33,32 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
 
   function handleConfirmDelete() {
     if (selectedItem) {
-       eliminarMutation.mutate({
-      tipo: "producto",
-      id: selectedItem.id_producto,
-      id_usuario: usuario.id_usuario,
-    });
+      eliminarMutation.mutate({
+        tipo: "producto",
+        id: selectedItem.id_producto,
+        id_usuario: usuario.id_usuario,
+      });
     }
     handleHideConfirm();
   }
 
-   
+  const handleSave = (datos) => {
+    console.log("Datos finales a guardar:", {
+      id_producto: datos.id_producto,
+      nombre_producto: datos.nombre_producto,
+      precio: Number(datos.precio),
+      descuento: Number(datos.descuento),
+      tipo:"producto"
+    });
 
+    // Aquí llamarías a tu API:
+    // api.guardarCategoria(datos.id, {
+    //   nombre_categoria: datos.nombre_categoria,
+    //   descripcion: datos.descripcion
+    // });
+
+    setShowModal(false);
+  };
 
   const columnasProductos = [
     { key: "id_producto", titulo: "ID" },
@@ -58,11 +74,11 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
 
   return (
     <>
-    <PageTitle label="Listado de Productos" Icon={FaEdit}/>
+      <PageTitle label="Listado de Productos" Icon={FaEdit} />
       <CustomTable
         datos={productos}
         columnas={columnasProductos}
-        onEditar={(item) => item && handleEditar(item.id_producto)}
+        onEditar={handleEditar}
         onEliminar={(item) => item && handleShowConfirm(item)}
         isLoading={isLoadingProductos}
         shouldShowActions={(item) => {
@@ -88,6 +104,19 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
         onConfirm={handleConfirmDelete}
         title="Eliminar Producto"
         message={`¿Estás seguro de que deseas eliminar la empresa "${selectedItem?.nombre_producto}"?`}
+      />
+
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setSelectedItem(null);
+        }}
+        entityType="producto"
+        entityData={selectedItem}
+        onSave={(data) => {
+          handleSave(data);
+        }}
       />
     </>
   );

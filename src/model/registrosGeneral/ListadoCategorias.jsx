@@ -5,19 +5,23 @@ import { useEliminar } from "../../hooks/useEliminar";
 import { ConfirmDialog } from "../../ui/ConfirmDialog"; // Asegúrate de tener esta ruta correcta
 import PageTitle from "../../ui/PageTitle";
 import { FaEdit } from "react-icons/fa";
-export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
-  console.log("Categorias:", categorias);
+import { CustomModal } from "../../ui/CustomModal";
+import { useActualizar } from "../../hooks/useActualizar";
+
+export default function ListadoCategorias({ categorias, isLoadingCategorias , id_usuario}) {
   const { usuario } = useAuth();
   const eliminarMutation = useEliminar();
 
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+ const { mutate: actualizar} = useActualizar();  
+ 
+  const [showModal, setShowModal] = useState(false);
 
-  function handleEditar(id_categoria) {
-    console.log("Editar categoria con ID:", id_categoria);
-  }
-
-
+  const handleEditar = (item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
 
   function handleShowConfirm(item) {
     setSelectedItem(item);
@@ -29,20 +33,34 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
     setSelectedItem(null);
   }
 
-
-   function handleConfirmDelete() {
+  function handleConfirmDelete() {
     if (selectedItem) {
-       eliminarMutation.mutate({
-      tipo: "categoria",
-      id: selectedItem.id_categoria,
-      id_usuario: usuario.id_usuario,
-    });
+      eliminarMutation.mutate({
+        tipo: "categoria",
+        id: selectedItem.id_categoria,
+        id_usuario: usuario.id_usuario,
+      });
     }
     handleHideConfirm();
   }
 
+  const handleSave = (datos) => {
+  
+   const datosActualizados= {
+      nombre_categoria: datos.nombre_categoria,
+      descripcion: datos.descripcion,
+    };
 
-   
+     actualizar({
+      tipo: 'categoria',
+      id: datos.id_categoria,
+      id_usuario: id_usuario,
+      datos: datosActualizados,
+    });
+
+    setShowModal(false);
+  };
+
   const columnasCategorias = [
     { key: "id_categoria", titulo: "ID" },
     { key: "nombre_categoria", titulo: "Nombre" },
@@ -56,12 +74,12 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
 
   return (
     <>
-    <PageTitle label="Listado de Categorías" Icon={FaEdit}/>
+      <PageTitle label="Listado de Categorías" Icon={FaEdit} />
       <CustomTable
         datos={categorias}
         columnas={columnasCategorias}
-        onEditar={(item) => item && handleEditar(item.id_categoria)}
-         onEliminar={(item) => item && handleShowConfirm(item)}
+        onEditar={handleEditar}
+        onEliminar={(item) => item && handleShowConfirm(item)}
         isLoading={isLoadingCategorias}
         shouldShowActions={(item) => {
           if (!item) return false;
@@ -86,6 +104,18 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias }) {
         onConfirm={handleConfirmDelete}
         title="Eliminar Categoría"
         message={`¿Estás seguro de que deseas eliminar la categoría "${selectedItem?.nombre_categoria}"?`}
+      />
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setSelectedItem(null);
+        }}
+        entityType="categoria"
+        entityData={selectedItem}
+        onSave={(data) => {
+          handleSave(data);
+        }}
       />
     </>
   );

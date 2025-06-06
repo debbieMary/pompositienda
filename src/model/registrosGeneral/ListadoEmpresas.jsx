@@ -5,17 +5,19 @@ import CustomTable from "../../ui/CustomTable";
 import { ConfirmDialog } from "../../ui/ConfirmDialog"; // Asegúrate de tener esta ruta correcta
 import { FaEdit } from "react-icons/fa";
 import PageTitle from "../../ui/PageTitle";
+import { CustomModal } from "../../ui/CustomModal";
 
 export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
   const { usuario } = useAuth();
   const eliminarMutation = useEliminar();
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  function handleEditar(id_empresa) {
-    console.log("Editar empresa con ID:", id_empresa);
-    // Implementa la lógica para editar
-  }
+  const handleEditar = (item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
 
   function handleShowConfirm(item) {
     setSelectedItem(item);
@@ -38,6 +40,25 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
     handleHideConfirm();
   }
 
+  const handleSave = (datos) => {
+    console.log("Datos finales a guardar:", {
+      id_empresa: datos.id_empresa,
+      nombre_empresa: datos.nombre_empresa,
+      descripcion: datos.descripcion,
+      direccion: datos.direccion,
+      telefono: datos.telefono,
+      tipo:"empresa"
+    });
+
+    // Aquí llamarías a tu API:
+    // api.guardarCategoria(datos.id, {
+    //   nombre_categoria: datos.nombre_categoria,
+    //   descripcion: datos.descripcion
+    // });
+
+    setShowModal(false);
+  };
+
   const columnasEmpresas = [
     { key: "id_empresa", titulo: "ID" },
     { key: "nombre_empresa", titulo: "Nombre" },
@@ -51,7 +72,7 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
       <CustomTable
         datos={empresas}
         columnas={columnasEmpresas}
-        onEditar={(item) => item && handleEditar(item.id_empresa)}
+        onEditar={handleEditar}
         onEliminar={(item) => item && handleShowConfirm(item)}
         isLoading={isLoadingEmpresas}
         shouldShowActions={(item) => {
@@ -62,7 +83,8 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
         }}
         rowClassName={(item) => {
           if (!item) return "";
-          if ("status" in item && item.status === "inactive") return "inactive-row";
+          if ("status" in item && item.status === "inactive")
+            return "inactive-row";
           if ("activo" in item && !item.activo) return "inactive-row";
           return "";
         }}
@@ -74,6 +96,19 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
         onConfirm={handleConfirmDelete}
         title="Eliminar Empresas"
         message={`¿Estás seguro de que deseas eliminar la empresa "${selectedItem?.nombre_empresa}"?`}
+      />
+
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setSelectedItem(null);
+        }}
+        entityType="empresa"
+        entityData={selectedItem}
+        onSave={(data) => {
+          handleSave(data);
+        }}
       />
     </>
   );

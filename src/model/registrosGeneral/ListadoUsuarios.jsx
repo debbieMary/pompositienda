@@ -2,18 +2,22 @@ import React, { useState } from "react";
 import CustomTable from "../../ui/CustomTable";
 import { useAuth } from "../../context/AuthContext";
 import { useEliminar } from "../../hooks/useEliminar";
-import { ConfirmDialog } from "../../ui/ConfirmDialog"; 
+import { ConfirmDialog } from "../../ui/ConfirmDialog";
+import { FaEdit } from "react-icons/fa";
+import PageTitle from "../../ui/PageTitle";
+import { CustomModal } from "../../ui/CustomModal";
 
 export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
   const { usuario: usuario_admin } = useAuth();
   const eliminarMutation = useEliminar();
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  function handleEditar(id_usuario) {
-    console.log("Editar empresa con ID:", id_usuario);
-    // Aquí puedes implementar la lógica para editar la empresa
-  }
+  const handleEditar = (item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
 
   function handleShowConfirm(item) {
     setSelectedItem(item);
@@ -36,6 +40,24 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
     handleHideConfirm();
   }
 
+  const handleSave = (datos) => {
+    console.log("Datos finales a guardar:", {
+      id_usuario: datos.id_usuario,
+      celular_usuario: datos.celular_usuario,
+      email_usuario: datos.email_usuario,
+      rol_usuario: datos.rol_usuario,
+      tipo:"usuario"
+    });
+
+    // Aquí llamarías a tu API:
+    // api.guardarCategoria(datos.id, {
+    //   nombre_categoria: datos.nombre_categoria,
+    //   descripcion: datos.descripcion
+    // });
+
+    setShowModal(false);
+  };
+
   const columnasUsuarios = [
     { key: "id_usuario", titulo: "ID" },
     { key: "nombre1_usuario", titulo: "Nombre" },
@@ -47,10 +69,11 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
 
   return (
     <>
+      <PageTitle label="Listado de Usuarios" Icon={FaEdit} />
       <CustomTable
         datos={usuarios}
         columnas={columnasUsuarios}
-        onEditar={(item) => item && handleEditar(item.id_usuario)}
+        onEditar={handleEditar}
         onEliminar={(item) => item && handleShowConfirm(item)}
         isLoading={isLoadingUsuarios}
         shouldShowActions={(item) => {
@@ -76,6 +99,19 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
         onConfirm={handleConfirmDelete}
         title="Eliminar Usuarios"
         message={`¿Estás seguro de que deseas eliminar al usuario "${selectedItem?.nombre1_usuario} ${selectedItem?.apellido1_usuario}"?`}
+      />
+
+      <CustomModal
+        show={showModal}
+        onHide={() => {
+          setShowModal(false);
+          setSelectedItem(null);
+        }}
+        entityType="usuario"
+        entityData={selectedItem}
+        onSave={(data) => {
+          handleSave(data);
+        }}
       />
     </>
   );
