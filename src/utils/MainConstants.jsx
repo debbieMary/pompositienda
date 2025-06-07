@@ -22,3 +22,16 @@ export const MAIN_URL = "http://localhost:3000";
   CLIENTE: 'cliente',
   SUPER: 'super'
 };
+
+
+ export  const ESTADO_COMPRA = {
+  PENDIENTE: 'pendiente',
+  CANCELADO: 'cancelado',
+  COMPLETADO: 'completado'
+};
+
+
+export const opcionesTipoRegInventario=[
+    { value: 'valor1', label: 'Texto visible 1' },
+    { value: 'valor2', label: 'Texto visible 2' }
+  ];

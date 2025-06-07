@@ -7,6 +7,8 @@ import ErrorComponent from '../../ui/ErrorComponent';
 import PageTitle from '../../ui/PageTitle';
 import CustomBorder from '../../ui/CustomBorder';
 import EmptyData from '../../ui/EmptyData';
+import { FaDeleteLeft } from 'react-icons/fa6';
+import { TbFlagCancel } from 'react-icons/tb';
 
 const Historial = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -29,6 +31,16 @@ const Historial = () => {
 
   const getEstadoBadge = (estado) => {
     switch(estado) {
+   case 'cancelado':
+        return (
+          <span className="badge rounded-pill" style={{ 
+            backgroundColor: 'var(--pomp-plomo)',
+            color: 'var(--pomp-plomo-xoscuro)',
+            border: '1px solid var(--pomp-plomo-xoscuro)'
+          }}>
+            <TbFlagCancel className="me-1" /> Cancelado
+          </span>
+        );
       case 'pendiente':
         return (
           <span className="badge rounded-pill" style={{ 

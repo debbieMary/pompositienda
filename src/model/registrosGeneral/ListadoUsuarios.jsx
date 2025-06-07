@@ -6,6 +6,7 @@ import { ConfirmDialog } from "../../ui/ConfirmDialog";
 import { FaEdit } from "react-icons/fa";
 import PageTitle from "../../ui/PageTitle";
 import { CustomModal } from "../../ui/CustomModal";
+import { useActualizar } from "../../hooks/useActualizar";
 
 export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
   const { usuario: usuario_admin } = useAuth();
@@ -13,6 +14,7 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const { mutate: actualizar } = useActualizar();
 
   const handleEditar = (item) => {
     setSelectedItem(item);
@@ -43,17 +45,22 @@ export default function ListadoUsuarios({ usuarios, isLoadingUsuarios }) {
   const handleSave = (datos) => {
     console.log("Datos finales a guardar:", {
       id_usuario: datos.id_usuario,
+
+      tipo: "usuario",
+    });
+
+    const datosActualizados = {
       celular_usuario: datos.celular_usuario,
       email_usuario: datos.email_usuario,
       rol_usuario: datos.rol_usuario,
-      tipo:"usuario"
-    });
+    };
 
-    // Aquí llamarías a tu API:
-    // api.guardarCategoria(datos.id, {
-    //   nombre_categoria: datos.nombre_categoria,
-    //   descripcion: datos.descripcion
-    // });
+    actualizar({
+      tipo: "usuario",
+      id: datos.id_usuario,
+      id_usuario: usuario_admin.id_usuario,
+      datos: datosActualizados,
+    });
 
     setShowModal(false);
   };

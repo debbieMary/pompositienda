@@ -6,15 +6,15 @@ import { useState } from "react";
 import PageTitle from "../../ui/PageTitle";
 import { FaEdit } from "react-icons/fa";
 import { CustomModal } from "../../ui/CustomModal";
+import { useActualizar } from "../../hooks/useActualizar";
 
 export default function ListadoProductos({ productos, isLoadingProductos }) {
   const { usuario } = useAuth();
   const eliminarMutation = useEliminar();
-
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
   const [showModal, setShowModal] = useState(false);
+  const { mutate: actualizar } = useActualizar();
 
   const handleEditar = (item) => {
     setSelectedItem(item);
@@ -43,19 +43,18 @@ export default function ListadoProductos({ productos, isLoadingProductos }) {
   }
 
   const handleSave = (datos) => {
-    console.log("Datos finales a guardar:", {
-      id_producto: datos.id_producto,
+    const datosActualizados = {
       nombre_producto: datos.nombre_producto,
       precio: Number(datos.precio),
       descuento: Number(datos.descuento),
-      tipo:"producto"
-    });
+    };
 
-    // Aquí llamarías a tu API:
-    // api.guardarCategoria(datos.id, {
-    //   nombre_categoria: datos.nombre_categoria,
-    //   descripcion: datos.descripcion
-    // });
+    actualizar({
+      tipo: "producto",
+      id: datos.id_producto,
+      id_usuario: usuario.id_usuario,
+      datos: datosActualizados,
+    });
 
     setShowModal(false);
   };

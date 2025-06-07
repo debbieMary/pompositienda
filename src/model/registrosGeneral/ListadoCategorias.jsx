@@ -8,7 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import { CustomModal } from "../../ui/CustomModal";
 import { useActualizar } from "../../hooks/useActualizar";
 
-export default function ListadoCategorias({ categorias, isLoadingCategorias , id_usuario}) {
+export default function ListadoCategorias({ categorias, isLoadingCategorias}) {
   const { usuario } = useAuth();
   const eliminarMutation = useEliminar();
 
@@ -54,7 +54,7 @@ export default function ListadoCategorias({ categorias, isLoadingCategorias , id
      actualizar({
       tipo: 'categoria',
       id: datos.id_categoria,
-      id_usuario: id_usuario,
+      id_usuario: usuario.id_usuario,
       datos: datosActualizados,
     });
 

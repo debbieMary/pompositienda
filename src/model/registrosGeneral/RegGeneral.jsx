@@ -93,62 +93,7 @@ export default function RegEmpresasProductos() {
     );
   }
 
-  // Define las pestañas y su contenido
-  /*const tabs = [
-    {
-      id: "categorias",
-      label: "Categorías",
-      content: (
-        <RegCategorias
-          categorias_nuevas={categorias_nuevas}
-          id_usuario={usuario.id_usuario}
-        />
-      ),
-    },
-    {
-      id: "empresas",
-      label: "Empresas",
-      content: (
-        <RegEmpresas
-          categorias_nuevas={categorias_nuevas}
-          id_usuario={usuario.id_usuario}
-        />
-      ),
-    },
-    {
-      id: "productos",
-      label: "Productos",
-      content: (
-        <RegProductos
-          empresas_nuevas={empresas_nuevas}
-          categorias_nuevas={categorias_nuevas}
-          id_usuario={usuario.id_usuario}
-        />
-      ),
-    },
-    {
-      id: "usuarios",
-      label: "Usuarios",
-      content: <RegUsuarios />,
-    },
 
-    {
-      id: "listas",
-      label: "Listas",
-      content: (
-        <ListasCatProdEmp
-          categorias={categorias}
-          empresas={empresas}
-          productos={productos}
-          usuarios={usuarios}
-          isLoadingEmpresas={isLoadingEmpresas}
-          isLoadingCategorias={isLoadingCategorias}
-          isLoadingProductos={isLoadingProductos}
-          isLoadingUsuarios={isLoadingUsuarios}
-        />
-      ),
-    },
-  ];*/
 
   const tabs = [
     {
@@ -207,7 +152,6 @@ export default function RegEmpresasProductos() {
         <>
           <RegUsuarios />
           <ListadoUsuarios
-            id_usuario={usuario.id_usuario}
             usuarios={usuarios}
             isLoadingUsuarios={isLoadingUsuarios}
           />
@@ -215,22 +159,6 @@ export default function RegEmpresasProductos() {
       ),
     },
 
-    /* {
-      id: "listas",
-      label: "Listas",
-      content: (
-        <ListasCatProdEmp
-          categorias={categorias}
-          empresas={empresas}
-          productos={productos}
-          usuarios={usuarios}
-          isLoadingEmpresas={isLoadingEmpresas}
-          isLoadingCategorias={isLoadingCategorias}
-          isLoadingProductos={isLoadingProductos}
-          isLoadingUsuarios={isLoadingUsuarios}
-        />
-      ),
-    },*/
   ];
 
   return <CustomTabs tabs={tabs} defaultTab="categorias" />;

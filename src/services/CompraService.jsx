@@ -21,3 +21,14 @@ export async function finalizarCompra(pedido) {
   const data = await response.json();
   return data;  // { message: "...", id_compra_total: ... }
 }
+
+
+export async function getAllCompras(){
+    const res = await fetch(`${MAIN_URL}/listado_compras`);
+    if (!res.ok) throw new Error('Error al obtener la lista de compras');
+    return res.json();
+}
+
+
+
+

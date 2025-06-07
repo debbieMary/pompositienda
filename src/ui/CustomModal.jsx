@@ -1,4 +1,4 @@
-import { ROLES } from "../utils/MainConstants";
+import { ESTADO_COMPRA, ROLES } from "../utils/MainConstants";
 import CustomForm from "./CustomForm";
 
 // Configuración centralizada de todas las entidades
@@ -58,6 +58,24 @@ const entityConfig = {
         label: "Rol",
         type: "select",
         options: Object.values(ROLES),
+        required: true,
+      },
+    ],
+  },
+   compras: {
+    fields: [
+      {
+        name: "nombre_factura",
+        label: "Nombre de la Factura",
+        type: "text",
+        required: true,
+      },
+      { name: "nit_factura", label: "Nit de la Factura", type: "text", required: true },
+      {
+        name: "estado",
+        label: "Estado",
+        type: "select",
+        options: Object.values(ESTADO_COMPRA),
         required: true,
       },
     ],
