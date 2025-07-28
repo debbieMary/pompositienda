@@ -71,6 +71,7 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
     { key: "id_empresa", titulo: "ID" },
     { key: "nombre_empresa", titulo: "Nombre" },
     { key: "direccion", titulo: "Dirección" },
+    { key: "status", titulo: "Estado" },
     { key: "telefono", titulo: "Teléfono" },
   ];
 
@@ -121,3 +122,6 @@ export default function ListadoEmpresas({ empresas, isLoadingEmpresas }) {
     </>
   );
 }
+
+
+  

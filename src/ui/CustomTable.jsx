@@ -21,7 +21,7 @@ export default function CustomTable({
   }
 
   if (!datos || datos.length === 0) {
-    return <EmptyData titulo="No existen datos aún" />;
+    return <EmptyData titulo="No existen datos aún" buttonLabel="Volver al inicio" to="/"/>;
   }
 
   // Función mejorada para generar keys únicas incluso con datos duplicados

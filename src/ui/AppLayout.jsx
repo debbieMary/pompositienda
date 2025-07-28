@@ -19,7 +19,7 @@ export default function AppLayout() {
       <footer className="pomp-footer text-center">
         <div className="container">
           <p className="mb-0">
-            © 2023 Pompositienda - Todos los derechos reservados
+            © 2025 Pompositienda - Todos los derechos reservados
           </p>
         </div>
       </footer>

@@ -17,6 +17,7 @@ import ListadoProductos from "./ListadoProductos";
 import ListadoUsuarios from "./ListadoUsuarios";
 
 export default function RegEmpresasProductos() {
+  const {usuario} =  useAuth();
   const {
     data: empresas,
     isLoading: isLoadingEmpresas,
@@ -34,8 +35,6 @@ export default function RegEmpresasProductos() {
     isLoading: isLoadingProductos,
     error: errorProductos,
   } = useProductos();
-
-  const { usuario } = useAuth();
 
   const {
     data: categorias,
@@ -145,21 +144,25 @@ export default function RegEmpresasProductos() {
         </>
       ),
     },
-    {
-      id: "usuarios",
-      label: "Gestión de Usuarios",
-      content: (
-        <>
-          <RegUsuarios />
-          <ListadoUsuarios
-            usuarios={usuarios}
-            isLoadingUsuarios={isLoadingUsuarios}
-          />
-        </>
-      ),
-    },
-
+    
   ];
+
+  if (usuario.rol_usuario === "super") {
+  tabs.push({
+    id: "usuarios",
+    label: "Gestión de Usuarios",
+    content: (
+      <>
+        <RegUsuarios />
+        <ListadoUsuarios
+          usuarios={usuarios}
+          isLoadingUsuarios={isLoadingUsuarios}
+        />
+      </>
+    ),
+  });
+}
+
 
   return <CustomTabs tabs={tabs} defaultTab="categorias" />;
 }

@@ -1,6 +1,8 @@
-//"http://192.168.0.2:3000";
-export const MAIN_URL = "http://localhost:3000";
+
+//export const MAIN_URL = "http://localhost:3000";
 //export const MAIN_URL = "http://192.168.0.4:3000";
+
+export const MAIN_URL = "https://pompositiendabackend.onrender.com";
 
   export const opcionesCIExp = [
     { value: "LP", label: "La Paz" },
